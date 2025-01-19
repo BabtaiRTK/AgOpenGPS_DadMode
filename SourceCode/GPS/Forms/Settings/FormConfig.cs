@@ -106,9 +106,6 @@ namespace AgOpenGPS
             //metric or imp on spinners min/maxes
             if (!mf.isMetric) FixMinMaxSpinners();
 
-            //the pick a saved vehicle box
-            UpdateVehicleListView();
-
             //tabTSections_Enter(this, e);
             lblVehicleToolWidth.Text = Convert.ToString((int)(mf.tool.width * 100 * mf.cm2CmOrIn));
             SectionFeetInchesTotalWidthLabelUpdate();
@@ -376,29 +373,15 @@ namespace AgOpenGPS
 
         private void tabSummary_Enter(object sender, EventArgs e)
         {
+            UpdateVehicleListView();
+
             SectionFeetInchesTotalWidthLabelUpdate();
-            lblSummaryVehicleName.Text = RegistrySettings.vehicleFileName;
+
             UpdateSummary();
         }
 
         private void tabSummary_Leave(object sender, EventArgs e)
         {
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            if (lvVehicles.SelectedItems.Count > 0)
-            {
-                //btnVehicleSaveAs.Enabled = true;
-                btnVehicleLoad.Enabled = true;
-                btnVehicleDelete.Enabled = true;
-            }
-            else
-            {
-                //btnVehicleSaveAs.Enabled = false;
-                btnVehicleLoad.Enabled = false;
-                btnVehicleDelete.Enabled = false;
-            }
         }
 
         private void tabDisplay_Enter(object sender, EventArgs e)

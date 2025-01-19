@@ -28,7 +28,6 @@ namespace AgOpenGPS
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.panelLeftSideMenu = new System.Windows.Forms.Panel();
             this.btnFeatureHides = new System.Windows.Forms.Button();
             this.btnDisplay = new System.Windows.Forms.Button();
@@ -159,7 +158,6 @@ namespace AgOpenGPS
             this.nudVehicleTrack = new AgOpenGPS.NudlessNumericUpDown();
             this.nudWheelbase = new AgOpenGPS.NudlessNumericUpDown();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.tabVGuidance = new System.Windows.Forms.TabPage();
             this.tabTConfig = new System.Windows.Forms.TabPage();
             this.labelBoxAttachmentStyle = new System.Windows.Forms.GroupBox();
             this.pboxConfigHarvester = new System.Windows.Forms.PictureBox();
@@ -545,7 +543,6 @@ namespace AgOpenGPS
             this.lblFeetMeters = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
             this.labelUnitsBottom = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panelLeftSideMenu.SuspendLayout();
             this.panelArduinoSubMenu.SuspendLayout();
             this.panelDataSourcesSubMenu.SuspendLayout();
@@ -1207,7 +1204,6 @@ namespace AgOpenGPS
             this.tab1.Controls.Add(this.tabVConfig);
             this.tab1.Controls.Add(this.tabVAntenna);
             this.tab1.Controls.Add(this.tabVDimensions);
-            this.tab1.Controls.Add(this.tabVGuidance);
             this.tab1.Controls.Add(this.tabTConfig);
             this.tab1.Controls.Add(this.tabTHitch);
             this.tab1.Controls.Add(this.tabToolOffset);
@@ -1231,6 +1227,7 @@ namespace AgOpenGPS
             this.tab1.SelectedIndex = 0;
             this.tab1.Size = new System.Drawing.Size(867, 632);
             this.tab1.TabIndex = 0;
+            this.tab1.SelectedIndexChanged += new System.EventHandler(this.tab1_SelectedIndexChanged);
             // 
             // tabSummary
             // 
@@ -1298,6 +1295,7 @@ namespace AgOpenGPS
             this.lvVehicles.TileSize = new System.Drawing.Size(490, 35);
             this.lvVehicles.UseCompatibleStateImageBehavior = false;
             this.lvVehicles.View = System.Windows.Forms.View.Tile;
+            this.lvVehicles.SelectedIndexChanged += new System.EventHandler(this.lvVehicles_SelectedIndexChanged);
             // 
             // chVehicle
             // 
@@ -1329,8 +1327,8 @@ namespace AgOpenGPS
             this.tboxCreateNewVehicle.Name = "tboxCreateNewVehicle";
             this.tboxCreateNewVehicle.Size = new System.Drawing.Size(510, 33);
             this.tboxCreateNewVehicle.TabIndex = 520;
-            this.tboxCreateNewVehicle.Click += new System.EventHandler(this.tboxCreateNewVehicle_Click);
-            this.tboxCreateNewVehicle.TextChanged += new System.EventHandler(this.tboxCreateNewVehicle_TextChanged);
+            this.tboxCreateNewVehicle.Click += new System.EventHandler(this.tboxVehicle_Click);
+            this.tboxCreateNewVehicle.TextChanged += new System.EventHandler(this.tboxVehicle_TextChanged);
             // 
             // labelNew
             // 
@@ -1632,6 +1630,7 @@ namespace AgOpenGPS
             // 
             this.btnVehicleLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnVehicleLoad.BackColor = System.Drawing.Color.Transparent;
+            this.btnVehicleLoad.Enabled = false;
             this.btnVehicleLoad.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.btnVehicleLoad.FlatAppearance.BorderSize = 0;
             this.btnVehicleLoad.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Turquoise;
@@ -1649,6 +1648,7 @@ namespace AgOpenGPS
             // 
             this.btnVehicleDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnVehicleDelete.BackColor = System.Drawing.Color.Transparent;
+            this.btnVehicleDelete.Enabled = false;
             this.btnVehicleDelete.FlatAppearance.BorderSize = 0;
             this.btnVehicleDelete.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Turquoise;
             this.btnVehicleDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1670,9 +1670,8 @@ namespace AgOpenGPS
             this.tboxVehicleNameSave.Name = "tboxVehicleNameSave";
             this.tboxVehicleNameSave.Size = new System.Drawing.Size(510, 33);
             this.tboxVehicleNameSave.TabIndex = 451;
-            this.tboxVehicleNameSave.Click += new System.EventHandler(this.tboxVehicleNameSave_Click);
-            this.tboxVehicleNameSave.TextChanged += new System.EventHandler(this.tboxVehicleNameSave_TextChanged);
-            this.tboxVehicleNameSave.Enter += new System.EventHandler(this.tboxVehicleNameSave_Enter);
+            this.tboxVehicleNameSave.Click += new System.EventHandler(this.tboxVehicle_Click);
+            this.tboxVehicleNameSave.TextChanged += new System.EventHandler(this.tboxVehicle_TextChanged);
             // 
             // labelSaveAs
             // 
@@ -2848,17 +2847,6 @@ namespace AgOpenGPS
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 32;
             this.pictureBox1.TabStop = false;
-            // 
-            // tabVGuidance
-            // 
-            this.tabVGuidance.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabVGuidance.Location = new System.Drawing.Point(4, 44);
-            this.tabVGuidance.Name = "tabVGuidance";
-            this.tabVGuidance.Size = new System.Drawing.Size(859, 584);
-            this.tabVGuidance.TabIndex = 14;
-            this.tabVGuidance.Text = "vGuid";
-            this.tabVGuidance.Enter += new System.EventHandler(this.tabVGuidance_Enter);
-            this.tabVGuidance.Leave += new System.EventHandler(this.tabVGuidance_Leave);
             // 
             // tabTConfig
             // 
@@ -9704,12 +9692,6 @@ namespace AgOpenGPS
             this.labelUnitsBottom.Text = "Units:";
             this.labelUnitsBottom.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // FormConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -9898,7 +9880,6 @@ namespace AgOpenGPS
         private System.Windows.Forms.TabPage tabTConfig;
         private System.Windows.Forms.TabPage tabVAntenna;
         private System.Windows.Forms.TabPage tabVDimensions;
-        private System.Windows.Forms.TabPage tabVGuidance;
         private System.Windows.Forms.TabPage tabDHeading;
         private System.Windows.Forms.TabPage tabDRoll;
         private System.Windows.Forms.Button btnVehicle;
@@ -10244,7 +10225,6 @@ namespace AgOpenGPS
         private System.Windows.Forms.Label lblZoneStart7;
         private System.Windows.Forms.Label labelZone7;
         private System.Windows.Forms.Label label155;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.CheckBox cboxSectionBoundaryControl;
         private System.Windows.Forms.Label labelBoundary;
         private System.Windows.Forms.Label labelGpsStep;

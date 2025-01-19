@@ -22,6 +22,8 @@ namespace AgOpenGPS
             {
                 if (lvVehicles.SelectedItems.Count > 0)
                 {
+                    if (lvVehicles.SelectedItems[0].SubItems[0].Text != RegistrySettings.vehicleFileName)
+                    {
                     string newVehicleName = lvVehicles.SelectedItems[0].SubItems[0].Text;
                     DialogResult result3 = MessageBox.Show(
                         "Open: " + newVehicleName + ".XML ?",
@@ -72,11 +74,10 @@ namespace AgOpenGPS
 
             btnOK.PerformClick();
         }
+        }
 
         private void btnVehicleDelete_Click(object sender, EventArgs e)
         {
-            if (!mf.isJobStarted)
-            {
                 if (lvVehicles.SelectedItems.Count > 0)
                 {
                     if (lvVehicles.SelectedItems[0].SubItems[0].Text != RegistrySettings.vehicleFileName)
@@ -97,7 +98,6 @@ namespace AgOpenGPS
                         mf.TimedMessageBox(2000, "Vehicle In Use", "Select Different Vehicle");
                     }
                 }
-            }
 
             UpdateVehicleListView();
         }
@@ -105,46 +105,33 @@ namespace AgOpenGPS
         //Save As Vehicle
         private void btnVehicleSave_Click(object sender, EventArgs e)
         {
-            btnVehicleSave.BackColor = Color.Transparent;
-            btnVehicleSave.Enabled = false;
-
-            string newVehicleName = SanitizeFileName(tboxVehicleNameSave.Text.Trim()).Trim();
+            string newVehicleName = SanitizeFileName(tboxVehicleNameSave.Text).Trim();
             tboxVehicleNameSave.Text = "";
 
             if (newVehicleName.Length > 0)
             {
                 RegistrySettings.Save(RegKeys.vehicleFileName, newVehicleName);
                 Settings.Default.Save();
+
+                labelCurrentVehicle.Text = gStr.gsCurrent + ": " + RegistrySettings.vehicleFileName;
+                lblSummaryVehicleName.Text = labelCurrentVehicle.Text;
             }
             UpdateVehicleListView();
-            UpdateSummary();
         }
 
-        private void tboxVehicleNameSave_TextChanged(object sender, EventArgs e)
+        private void lvVehicles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var textboxSender = (TextBox)sender;
-            var cursorPosition = textboxSender.SelectionStart;
-            textboxSender.Text = Regex.Replace(textboxSender.Text, glm.fileRegex, "");
-            textboxSender.SelectionStart = cursorPosition;
+            if (lvVehicles.SelectedItems.Count > 0 && lvVehicles.SelectedItems[0].SubItems[0].Text == RegistrySettings.vehicleFileName)
+                lvVehicles.SelectedItems[0].Selected = false; // Prevent selection
 
-            btnVehicleLoad.Enabled = false;
-            btnVehicleDelete.Enabled = false;
+            btnVehicleDelete.Enabled = btnVehicleLoad.Enabled = lvVehicles.SelectedItems.Count > 0;
 
-            lvVehicles.SelectedItems.Clear();
-
-            if (String.IsNullOrEmpty(tboxVehicleNameSave.Text.Trim()))
-            {
+            btnVehicleNewSave.Enabled = false;
                 btnVehicleSave.Enabled = false;
-                btnVehicleSave.BackColor = Color.Transparent;
             }
-            else
+
+        private void tboxVehicle_Click(object sender, EventArgs e)
             {
-                btnVehicleSave.Enabled = true;
-                btnVehicleSave.BackColor = Color.LimeGreen;
-            }
-        }
-        private void tboxVehicleNameSave_Click(object sender, EventArgs e)
-        {
             if (!mf.isJobStarted)
             {
                 if (mf.isKeyboardOn)
@@ -159,64 +146,23 @@ namespace AgOpenGPS
             }
         }
 
-        private void tboxVehicleNameSave_Enter(object sender, EventArgs e)
-        {
-            //btnVehicleSaveAs.Enabled = false;
-            btnVehicleLoad.Enabled = false;
-            btnVehicleDelete.Enabled = false;
-
-            lvVehicles.SelectedItems.Clear();
-        }
-
-        //New Vehicle
-        private void tboxCreateNewVehicle_TextChanged(object sender, EventArgs e)
+        private void tboxVehicle_TextChanged(object sender, EventArgs e)
         {
             var textboxSender = (TextBox)sender;
             var cursorPosition = textboxSender.SelectionStart;
             textboxSender.Text = Regex.Replace(textboxSender.Text, glm.fileRegex, "");
             textboxSender.SelectionStart = cursorPosition;
 
-            btnVehicleSave.Enabled = false;
-            btnVehicleLoad.Enabled = false;
-            btnVehicleDelete.Enabled = false;
+            bool empty = String.IsNullOrEmpty(textboxSender.Text.Trim());
+            btnVehicleNewSave.Enabled = textboxSender == tboxCreateNewVehicle && !empty;
+            btnVehicleSave.Enabled = textboxSender == tboxVehicleNameSave && !empty;
 
             lvVehicles.SelectedItems.Clear();
-
-            if (String.IsNullOrEmpty(tboxCreateNewVehicle.Text.Trim()))
-            {
-                btnVehicleNewSave.Enabled = false;
-                btnVehicleNewSave.BackColor = Color.Transparent;
             }
-            else
-            {
-                btnVehicleNewSave.Enabled = true;
-                btnVehicleNewSave.BackColor = Color.LimeGreen;
-            }
-        }
-
-        private void tboxCreateNewVehicle_Click(object sender, EventArgs e)
-        {
-            if (!mf.isJobStarted)
-            {
-                if (mf.isKeyboardOn)
-                {
-                    mf.KeyboardToText((TextBox)sender, this);
-                }
-            }
-            else
-            {
-                var form = new FormTimedMessage(2000, gStr.gsFieldIsOpen, gStr.gsCloseFieldFirst);
-                form.Show(this);
-                tboxCreateNewVehicle.Enabled = false;
-            }
-        }
 
         private void btnVehicleNewSave_Click(object sender, EventArgs e)
         {
-            btnVehicleNewSave.BackColor = Color.Transparent;
-            btnVehicleNewSave.Enabled = false;
-
-            string newVehicleName = SanitizeFileName(tboxCreateNewVehicle.Text.Trim()).Trim();
+            string newVehicleName = SanitizeFileName(tboxCreateNewVehicle.Text).Trim();
             tboxCreateNewVehicle.Text = "";
 
             if (newVehicleName.Length > 0)
@@ -266,15 +212,18 @@ namespace AgOpenGPS
             lvVehicles.Items.Clear();
             foreach (FileInfo file in Files)
             {
-                lvVehicles.Items.Add(Path.GetFileNameWithoutExtension(file.Name));
+                string name = Path.GetFileNameWithoutExtension(file.Name);
+                lvVehicles.Items.Add(name);
+                if (name == RegistrySettings.vehicleFileName)
+                {
+                    var item = lvVehicles.Items[lvVehicles.Items.Count - 1];
+                    item.ForeColor = Color.Gray; // Change text color to gray
+                }
             }
 
             //deselect everything
             lvVehicles.SelectedItems.Clear();
-            lblSummaryVehicleName.Text = RegistrySettings.vehicleFileName;
-
-            //tboxCreateNewVehicle.Text = "";
-            //tboxVehicleNameSave.Text = "";
+            btnVehicleDelete.Enabled = btnVehicleLoad.Enabled = false;
         }
 
         private void SaveDisplaySettings()
@@ -494,17 +443,6 @@ namespace AgOpenGPS
             }
         }
 
-        #endregion
-
-        #region Vehicle Guidance
-
-        private void tabVGuidance_Enter(object sender, EventArgs e)
-        {
-        }
-
-        private void tabVGuidance_Leave(object sender, EventArgs e)
-        {
-        }
         #endregion
 
         #region VConfig Enter/Leave
