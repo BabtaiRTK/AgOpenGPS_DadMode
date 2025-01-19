@@ -1,4 +1,4 @@
-﻿//Please, if you use this, share the improvements
+//Please, if you use this, share the improvements
 
 using AgLibrary.Logging;
 using AgOpenGPS.Culture;
@@ -15,8 +15,6 @@ namespace AgOpenGPS
     {
         //class variables
         private readonly FormGPS mf = null;
-
-        private bool isClosing = false;
 
         //constructor
         public FormConfig(Form callingForm)
@@ -148,8 +146,8 @@ namespace AgOpenGPS
             labelDualPositionOnRight.Text = gStr.gsDualpositionAntennaRight;
             //toolconfig
             labelToolOffset.Text = gStr.gsToolOffset;
-            labelOverlapGap.Text = gStr.gsOverlapGap;   
-            labelToolLeft.Text = gStr.gsToolLeft;   
+            labelOverlapGap.Text = gStr.gsOverlapGap;
+            labelToolLeft.Text = gStr.gsToolLeft;
             labelToolRight.Text = gStr.gsToolRight;
             labelOverlap2.Text = gStr.gsOverlap;
             labelGap.Text = gStr.gsGap;
@@ -263,7 +261,7 @@ namespace AgOpenGPS
             labelElevationOnOff.Text = gStr.gsElevationlog;
             unitsGroupBox.Text = gStr.gsUnits;
 
-            UpdateSummary();
+            tab1_SelectedIndexChanged(null, null);
 
             if (!ScreenHelper.IsOnScreen(Bounds))
             {
@@ -274,11 +272,7 @@ namespace AgOpenGPS
 
         private void FormConfig_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!isClosing)
-            {
-                e.Cancel = true;
-                return;
-            }
+            tab1.SelectedTab = null;// make sure tabPage_Leave is called!
 
             //reload all the settings
             mf.LoadSettings();
@@ -367,7 +361,6 @@ namespace AgOpenGPS
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            isClosing = true;
             Close();
         }
 
@@ -418,7 +411,6 @@ namespace AgOpenGPS
 
             mf.isMetric = false;
             Properties.Settings.Default.setMenu_isMetric = mf.isMetric;
-            isClosing = true;
             Close();
         }
 
@@ -429,7 +421,6 @@ namespace AgOpenGPS
 
             mf.isMetric = true;
             Properties.Settings.Default.setMenu_isMetric = mf.isMetric;
-            isClosing = true;
             Close();
             //FormConfig_Load(this, e);
         }
@@ -441,6 +432,108 @@ namespace AgOpenGPS
                 mf.ABLine.numGuideLines = (int)nudNumGuideLines.Value;
             }
 
+        }
+
+        private TabPage oldTabPage = null;
+
+        private void tab1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //this is what we actually want
+            //The Enter event is raised when the tab page gains focus,
+            //but focus can behave unpredictably,
+            TabPage newTabPage = tab1.SelectedTab;
+            if (newTabPage != oldTabPage)
+            {
+                if (oldTabPage != null)
+                {
+                    if (oldTabPage == tabSummary)
+                        tabSummary_Leave(null, null);
+                    else if (oldTabPage == tabDHeading)
+                        tabDHeading_Leave(null, null);
+                    else if (oldTabPage == tabVConfig)
+                        tabVConfig_Leave(null, null);
+                    else if (oldTabPage == tabDisplay)
+                        tabDisplay_Leave(null, null);
+                    else if (oldTabPage == tabBtns)
+                        tabBtns_Leave(null, null);
+                    else if (oldTabPage == tabTram)
+                        tabTram_Leave(null, null);
+                    else if (oldTabPage == tabAMachine)
+                        tabAMachine_Leave(null, null);
+                    else if (oldTabPage == tabRelay)
+                        tabRelay_Leave(null, null);
+                    else if (oldTabPage == tabUTurn)
+                        tabUTurn_Leave(null, null);
+                    else if (oldTabPage == tabDRoll)
+                        tabDRoll_Leave(null, null);
+                    else if (oldTabPage == tabTSettings)
+                        tabTSettings_Leave(null, null);
+                    else if (oldTabPage == tabTSwitches)
+                        tabTSwitches_Leave(null, null);
+                    else if (oldTabPage == tabTSections)
+                        tabTSections_Leave(null, null);
+                    else if (oldTabPage == tabToolPivot)
+                        tabToolPivot_Leave(null, null);
+                    else if (oldTabPage == tabToolOffset)
+                        tabToolOffset_Leave(null, null);
+                    else if (oldTabPage == tabTHitch)
+                        tabTHitch_Leave(null, null);
+                    else if (oldTabPage == tabTConfig)
+                        tabTConfig_Leave(null, null);
+                    else if (oldTabPage == tabVDimensions)
+                        tabVDimensions_Leave(null, null);
+                    else if (oldTabPage == tabVAntenna)
+                        tabVAntenna_Leave(null, null);
+                    else
+                        throw new Exception($"Unknown tab leave: {oldTabPage.Text}");
+                }
+
+                if (newTabPage != null)
+                {
+                    if (newTabPage == tabSummary)
+                        tabSummary_Enter(null, null);
+                    else if (newTabPage == tabDHeading)
+                        tabDHeading_Enter(null, null);
+                    else if (newTabPage == tabVConfig)
+                        tabVConfig_Enter(null, null);
+                    else if (newTabPage == tabDisplay)
+                        tabDisplay_Enter(null, null);
+                    else if (newTabPage == tabBtns)
+                        tabBtns_Enter(null, null);
+                    else if (newTabPage == tabTram)
+                        tabTram_Enter(null, null);
+                    else if (newTabPage == tabAMachine)
+                        tabAMachine_Enter(null, null);
+                    else if (newTabPage == tabRelay)
+                        tabRelay_Enter(null, null);
+                    else if (newTabPage == tabUTurn)
+                        tabUTurn_Enter(null, null);
+                    else if (newTabPage == tabDRoll)
+                        tabDRoll_Enter(null, null);
+                    else if (newTabPage == tabTSettings)
+                        tabTSettings_Enter(null, null);
+                    else if (newTabPage == tabTSwitches)
+                        tabTSwitches_Enter(null, null);
+                    else if (newTabPage == tabTSections)
+                        tabTSections_Enter(null, null);
+                    else if (newTabPage == tabToolPivot)
+                        tabToolPivot_Enter(null, null);
+                    else if (newTabPage == tabToolOffset)
+                        tabToolOffset_Enter(null, null);
+                    else if (newTabPage == tabTHitch)
+                        tabTHitch_Enter(null, null);
+                    else if (newTabPage == tabTConfig)
+                        tabTConfig_Enter(null, null);
+                    else if (newTabPage == tabVDimensions)
+                        tabVDimensions_Enter(null, null);
+                    else if (newTabPage == tabVAntenna)
+                        tabVAntenna_Enter(null, null);
+                    else
+                        throw new Exception($"Unknown tab entered: {newTabPage.Text}");
+                }
+
+                oldTabPage = newTabPage;
+            }
         }
     }
 }

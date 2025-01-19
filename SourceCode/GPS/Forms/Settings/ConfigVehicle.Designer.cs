@@ -24,80 +24,80 @@ namespace AgOpenGPS
                 {
                     if (lvVehicles.SelectedItems[0].SubItems[0].Text != RegistrySettings.vehicleFileName)
                     {
-                    string newVehicleName = lvVehicles.SelectedItems[0].SubItems[0].Text;
-                    DialogResult result3 = MessageBox.Show(
-                        "Open: " + newVehicleName + ".XML ?",
-                        gStr.gsSaveAndReturn,
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question,
-                        MessageBoxDefaultButton.Button2);
+                        string newVehicleName = lvVehicles.SelectedItems[0].SubItems[0].Text;
+                        DialogResult result3 = MessageBox.Show(
+                            "Open: " + newVehicleName + ".XML ?",
+                            gStr.gsSaveAndReturn,
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question,
+                            MessageBoxDefaultButton.Button2);
 
-                    if (result3 == DialogResult.Yes)
-                    {
-                        RegistrySettings.Save(RegKeys.vehicleFileName, newVehicleName);
-
-                        var result = Settings.Default.Load();
-                        if (result != LoadResult.Ok)
+                        if (result3 == DialogResult.Yes)
                         {
-                            Log.EventWriter("Vehicle Loaded: " + newVehicleName + ".XML With Error:" + result.ToString());
+                            RegistrySettings.Save(RegKeys.vehicleFileName, newVehicleName);
 
-                            MessageBox.Show("There was an error while opening the xml \r\n\r\n Please check your settings");
+                            var result = Settings.Default.Load();
+                            if (result != LoadResult.Ok)
+                            {
+                                Log.EventWriter("Vehicle Loaded: " + newVehicleName + ".XML With Error:" + result.ToString());
+
+                                MessageBox.Show("There was an error while opening the xml \r\n\r\n Please check your settings");
+                            }
+
+                            Log.EventWriter("Vehicle Loaded: " + RegistrySettings.vehicleFileName + ".XML");
+
+                            LoadBrandImage();
+
+                            mf.vehicle = new CVehicle(mf);
+                            mf.tool = new CTool(mf);
+
+                            //reset AOG
+                            mf.LoadSettings();
+
+                            SectionFeetInchesTotalWidthLabelUpdate();
+
+                            SendSettings();
+
+                            //Send Pin configuration
+                            SendRelaySettingsToMachineModule();
+
+                            ///Remind the user
+                            mf.TimedMessageBox(2500, "Steer and Machine Settings Sent", "Were Modules Connected?");
                         }
-
-                        Log.EventWriter("Vehicle Loaded: " + RegistrySettings.vehicleFileName + ".XML");
-
-                        LoadBrandImage();
-
-                        mf.vehicle = new CVehicle(mf);
-                        mf.tool = new CTool(mf);
-
-                        //reset AOG
-                        mf.LoadSettings();
-
-                        SectionFeetInchesTotalWidthLabelUpdate();
-
-                        SendSettings();
-
-                        //Send Pin configuration
-                        SendRelaySettingsToMachineModule();
-
-                        ///Remind the user
-                        mf.TimedMessageBox(2500, "Steer and Machine Settings Sent", "Were Modules Connected?");
+                        UpdateSummary();
                     }
-                    UpdateSummary();
                 }
-            }
-            else
-            {
-                mf.TimedMessageBox(2000, gStr.gsFieldIsOpen, gStr.gsCloseFieldFirst);
-            }
+                else
+                {
+                    mf.TimedMessageBox(2000, gStr.gsFieldIsOpen, gStr.gsCloseFieldFirst);
+                }
 
-            btnOK.PerformClick();
-        }
+                btnOK.PerformClick();
+            }
         }
 
         private void btnVehicleDelete_Click(object sender, EventArgs e)
         {
-                if (lvVehicles.SelectedItems.Count > 0)
+            if (lvVehicles.SelectedItems.Count > 0)
+            {
+                if (lvVehicles.SelectedItems[0].SubItems[0].Text != RegistrySettings.vehicleFileName)
                 {
-                    if (lvVehicles.SelectedItems[0].SubItems[0].Text != RegistrySettings.vehicleFileName)
+                    DialogResult result3 = MessageBox.Show(
+                    "Delete: " + lvVehicles.SelectedItems[0].SubItems[0].Text + ".XML",
+                    gStr.gsSaveAndReturn,
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Error,
+                    MessageBoxDefaultButton.Button2);
+                    if (result3 == DialogResult.Yes)
                     {
-                        DialogResult result3 = MessageBox.Show(
-                        "Delete: " + lvVehicles.SelectedItems[0].SubItems[0].Text + ".XML",
-                        gStr.gsSaveAndReturn,
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Error,
-                        MessageBoxDefaultButton.Button2);
-                        if (result3 == DialogResult.Yes)
-                        {
-                            File.Delete(Path.Combine(RegistrySettings.vehiclesDirectory, lvVehicles.SelectedItems[0].SubItems[0].Text + ".XML"));
-                        }
-                    }
-                    else
-                    {
-                        mf.TimedMessageBox(2000, "Vehicle In Use", "Select Different Vehicle");
+                        File.Delete(Path.Combine(RegistrySettings.vehiclesDirectory, lvVehicles.SelectedItems[0].SubItems[0].Text + ".XML"));
                     }
                 }
+                else
+                {
+                    mf.TimedMessageBox(2000, "Vehicle In Use", "Select Different Vehicle");
+                }
+            }
 
             UpdateVehicleListView();
         }
@@ -127,11 +127,11 @@ namespace AgOpenGPS
             btnVehicleDelete.Enabled = btnVehicleLoad.Enabled = lvVehicles.SelectedItems.Count > 0;
 
             btnVehicleNewSave.Enabled = false;
-                btnVehicleSave.Enabled = false;
-            }
+            btnVehicleSave.Enabled = false;
+        }
 
         private void tboxVehicle_Click(object sender, EventArgs e)
-            {
+        {
             if (!mf.isJobStarted)
             {
                 if (mf.isKeyboardOn)
@@ -158,7 +158,7 @@ namespace AgOpenGPS
             btnVehicleSave.Enabled = textboxSender == tboxVehicleNameSave && !empty;
 
             lvVehicles.SelectedItems.Clear();
-            }
+        }
 
         private void btnVehicleNewSave_Click(object sender, EventArgs e)
         {
@@ -407,6 +407,11 @@ namespace AgOpenGPS
             label94.Text = mf.unitsInCm;
             label95.Text = mf.unitsInCm;
             label97.Text = mf.unitsInCm;
+        }
+
+        private void tabVDimensions_Leave(object sender, EventArgs e)
+        {
+
         }
 
         private void nudTractorHitchLength_Click(object sender, EventArgs e)

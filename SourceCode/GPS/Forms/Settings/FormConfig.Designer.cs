@@ -1269,8 +1269,6 @@ namespace AgOpenGPS
             this.tabSummary.Size = new System.Drawing.Size(859, 584);
             this.tabSummary.TabIndex = 0;
             this.tabSummary.Text = "tSum";
-            this.tabSummary.Enter += new System.EventHandler(this.tabSummary_Enter);
-            this.tabSummary.Leave += new System.EventHandler(this.tabSummary_Leave);
             // 
             // lvVehicles
             // 
@@ -1733,8 +1731,6 @@ namespace AgOpenGPS
             this.tabVConfig.Size = new System.Drawing.Size(859, 584);
             this.tabVConfig.TabIndex = 4;
             this.tabVConfig.Text = "vConfig";
-            this.tabVConfig.Enter += new System.EventHandler(this.tabVConfig_Enter);
-            this.tabVConfig.Leave += new System.EventHandler(this.tabVConfig_Leave);
             // 
             // lblOpacityPercent
             // 
@@ -2408,8 +2404,6 @@ namespace AgOpenGPS
             this.tabVAntenna.Size = new System.Drawing.Size(859, 584);
             this.tabVAntenna.TabIndex = 12;
             this.tabVAntenna.Text = "vAnt";
-            this.tabVAntenna.Enter += new System.EventHandler(this.tabVAntenna_Enter);
-            this.tabVAntenna.Leave += new System.EventHandler(this.tabVAntenna_Leave);
             // 
             // labelPivotDistance
             // 
@@ -2684,7 +2678,6 @@ namespace AgOpenGPS
             this.tabVDimensions.Size = new System.Drawing.Size(859, 584);
             this.tabVDimensions.TabIndex = 13;
             this.tabVDimensions.Text = "vDim";
-            this.tabVDimensions.Enter += new System.EventHandler(this.tabVDimensions_Enter);
             // 
             // label97
             // 
@@ -2857,8 +2850,6 @@ namespace AgOpenGPS
             this.tabTConfig.Size = new System.Drawing.Size(859, 584);
             this.tabTConfig.TabIndex = 11;
             this.tabTConfig.Text = "tConfig";
-            this.tabTConfig.Enter += new System.EventHandler(this.tabTConfig_Enter);
-            this.tabTConfig.Leave += new System.EventHandler(this.tabTConfig_Leave);
             // 
             // labelBoxAttachmentStyle
             // 
@@ -2963,8 +2954,6 @@ namespace AgOpenGPS
             this.tabTHitch.Size = new System.Drawing.Size(859, 584);
             this.tabTHitch.TabIndex = 5;
             this.tabTHitch.Text = "tHitch";
-            this.tabTHitch.Enter += new System.EventHandler(this.tabTHitch_Enter);
-            this.tabTHitch.Leave += new System.EventHandler(this.tabTHitch_Leave);
             // 
             // label112
             // 
@@ -3098,8 +3087,6 @@ namespace AgOpenGPS
             this.tabToolOffset.Size = new System.Drawing.Size(859, 584);
             this.tabToolOffset.TabIndex = 26;
             this.tabToolOffset.Text = "tOffs";
-            this.tabToolOffset.Enter += new System.EventHandler(this.tabToolOffset_Enter);
-            this.tabToolOffset.Leave += new System.EventHandler(this.tabToolOffset_Leave);
             // 
             // btnZeroOverlap
             // 
@@ -3361,8 +3348,6 @@ namespace AgOpenGPS
             this.tabToolPivot.Size = new System.Drawing.Size(859, 584);
             this.tabToolPivot.TabIndex = 27;
             this.tabToolPivot.Text = "tPivot";
-            this.tabToolPivot.Enter += new System.EventHandler(this.tabToolPivot_Enter);
-            this.tabToolPivot.Leave += new System.EventHandler(this.tabToolPivot_Leave);
             // 
             // btnPivotOffsetZero
             // 
@@ -3510,8 +3495,6 @@ namespace AgOpenGPS
             this.tabTSections.Size = new System.Drawing.Size(859, 584);
             this.tabTSections.TabIndex = 7;
             this.tabTSections.Text = "tSect";
-            this.tabTSections.Enter += new System.EventHandler(this.tabTSections_Enter);
-            this.tabTSections.Leave += new System.EventHandler(this.tabTSections_Leave);
             // 
             // panelSymmetricSections
             // 
@@ -5023,8 +5006,6 @@ namespace AgOpenGPS
             this.tabTSwitches.Size = new System.Drawing.Size(859, 584);
             this.tabTSwitches.TabIndex = 9;
             this.tabTSwitches.Text = "tSwit";
-            this.tabTSwitches.Enter += new System.EventHandler(this.tabTSwitches_Enter);
-            this.tabTSwitches.Leave += new System.EventHandler(this.tabTSwitches_Leave);
             // 
             // labelGroupSteerSwitch
             // 
@@ -5209,8 +5190,6 @@ namespace AgOpenGPS
             this.tabTSettings.Size = new System.Drawing.Size(859, 584);
             this.tabTSettings.TabIndex = 10;
             this.tabTSettings.Text = "TSettings";
-            this.tabTSettings.Enter += new System.EventHandler(this.tabTSettings_Enter);
-            this.tabTSettings.Leave += new System.EventHandler(this.tabTSettings_Leave);
             // 
             // labelLookAheadTiming
             // 
@@ -5414,8 +5393,6 @@ namespace AgOpenGPS
             this.tabDHeading.Size = new System.Drawing.Size(859, 584);
             this.tabDHeading.TabIndex = 15;
             this.tabDHeading.Text = "dHead";
-            this.tabDHeading.Enter += new System.EventHandler(this.tabDHeading_Enter);
-            this.tabDHeading.Leave += new System.EventHandler(this.tabDHeading_Leave);
             // 
             // labelFixAlarmStop
             // 
@@ -5899,8 +5876,6 @@ namespace AgOpenGPS
             this.tabDRoll.Size = new System.Drawing.Size(859, 584);
             this.tabDRoll.TabIndex = 16;
             this.tabDRoll.Text = "dRoll";
-            this.tabDRoll.Enter += new System.EventHandler(this.tabDRoll_Enter);
-            this.tabDRoll.Leave += new System.EventHandler(this.tabDRoll_Leave);
             // 
             // btnRollOffsetUp
             // 
@@ -6146,8 +6121,6 @@ namespace AgOpenGPS
             this.tabUTurn.Size = new System.Drawing.Size(859, 584);
             this.tabUTurn.TabIndex = 18;
             this.tabUTurn.Text = "uTurn";
-            this.tabUTurn.Enter += new System.EventHandler(this.tabUTurn_Enter);
-            this.tabUTurn.Leave += new System.EventHandler(this.tabUTurn_Leave);
             // 
             // labelUturnSmooth
             // 
@@ -6387,7 +6360,6 @@ namespace AgOpenGPS
             0,
             65536});
             this.nudTurnDistanceFromBoundary.Click += new System.EventHandler(this.nudTurnDistanceFromBoundary_Click);
-            this.nudTurnDistanceFromBoundary.Enter += new System.EventHandler(this.nudTurnDistanceFromBoundary_Click);
             // 
             // tabRelay
             // 
@@ -6452,8 +6424,6 @@ namespace AgOpenGPS
             this.tabRelay.Size = new System.Drawing.Size(859, 584);
             this.tabRelay.TabIndex = 24;
             this.tabRelay.Text = "aRelay";
-            this.tabRelay.Enter += new System.EventHandler(this.tabRelay_Enter);
-            this.tabRelay.Leave += new System.EventHandler(this.tabRelay_Leave);
             // 
             // cboxPin23
             // 
@@ -7596,8 +7566,6 @@ namespace AgOpenGPS
             this.tabAMachine.Size = new System.Drawing.Size(859, 584);
             this.tabAMachine.TabIndex = 20;
             this.tabAMachine.Text = "aMach";
-            this.tabAMachine.Enter += new System.EventHandler(this.tabAMachine_Enter);
-            this.tabAMachine.Leave += new System.EventHandler(this.tabAMachine_Leave);
             // 
             // labelUser4
             // 
@@ -8051,8 +8019,6 @@ namespace AgOpenGPS
             this.tabTram.Size = new System.Drawing.Size(859, 584);
             this.tabTram.TabIndex = 21;
             this.tabTram.Text = "tTram";
-            this.tabTram.Enter += new System.EventHandler(this.tabTram_Enter);
-            this.tabTram.Leave += new System.EventHandler(this.tabTram_Leave);
             // 
             // labelDisplay
             // 
@@ -8241,8 +8207,6 @@ namespace AgOpenGPS
             this.tabBtns.Size = new System.Drawing.Size(859, 584);
             this.tabBtns.TabIndex = 22;
             this.tabBtns.Text = "fBtns";
-            this.tabBtns.Enter += new System.EventHandler(this.tabBtns_Enter);
-            this.tabBtns.Leave += new System.EventHandler(this.tabBtns_Leave);
             // 
             // labelHardwareMessage
             // 
@@ -9039,8 +9003,6 @@ namespace AgOpenGPS
             this.tabDisplay.Size = new System.Drawing.Size(859, 584);
             this.tabDisplay.TabIndex = 25;
             this.tabDisplay.Text = "fDisp";
-            this.tabDisplay.Enter += new System.EventHandler(this.tabDisplay_Enter);
-            this.tabDisplay.Leave += new System.EventHandler(this.tabDisplay_Leave);
             // 
             // labelLineSmoothOnOff
             // 
